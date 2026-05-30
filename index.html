@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FocusFlow | Virtual Study Room</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-mode">
+    <!-- Animated Background -->
+    <div class="bg-gradient"></div>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header class="navbar glass-panel">
+            <div class="logo">
+                <i class='bx bx-brain'></i>
+                <h1>FocusFlow</h1>
+            </div>
+            <div class="header-controls">
+                <button id="theme-btn" class="icon-btn" title="Toggle Theme">
+                    <i class='bx bx-sun'></i>
+                </button>
+                <button id="focus-mode-btn" class="icon-btn" title="Focus Mode">
+                    <i class='bx bx-fullscreen'></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Layout -->
+        <main class="dashboard-grid">
+            <!-- Left Panel -->
+            <div class="left-panel">
+                
+                <!-- Pomodoro Timer -->
+                <section class="card pomodoro-card glass-panel">
+                    <div class="timer-header">
+                        <h2>Pomodoro Timer</h2>
+                        <span class="session-badge" id="session-count">Session 1</span>
+                    </div>
+                    <div class="timer-modes">
+                        <button class="mode-btn active" data-mode="study">Study</button>
+                        <button class="mode-btn" data-mode="break">Break</button>
+                    </div>
+                    <div class="timer-display">
+                        <svg class="progress-ring" width="220" height="220">
+                            <circle class="progress-ring__circle-bg" stroke="rgba(255,255,255,0.1)" stroke-width="8" fill="transparent" r="100" cx="110" cy="110"/>
+                            <circle class="progress-ring__circle" stroke="var(--primary-color)" stroke-width="8" fill="transparent" r="100" cx="110" cy="110"/>
+                        </svg>
+                        <div class="time-text" id="time-display">25:00</div>
+                    </div>
+                    <div class="timer-controls">
+                        <button id="start-pause-btn" class="primary-btn"><i class='bx bx-play'></i> Start</button>
+                        <button id="reset-btn" class="secondary-btn"><i class='bx bx-reset'></i> Reset</button>
+                    </div>
+                </section>
+
+                <!-- Smart To-Do List -->
+                <section class="card tasks-card glass-panel">
+                    <div class="card-header">
+                        <h2>Smart Tasks</h2>
+                        <span class="task-counter" id="task-counter">0/0 Completed</span>
+                    </div>
+                    
+                    <div class="task-input-container">
+                        <input type="text" id="task-input" placeholder="What needs to be done?">
+                        <select id="task-priority">
+                            <option value="low">Low 🟢</option>
+                            <option value="medium">Med 🟡</option>
+                            <option value="high">High 🔴</option>
+                        </select>
+                        <button id="add-task-btn" class="icon-btn add-btn"><i class='bx bx-plus'></i></button>
+                    </div>
+
+                    <div class="task-filters">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="active">Active</button>
+                        <button class="filter-btn" data-filter="completed">Completed</button>
+                    </div>
+
+                    <ul class="task-list" id="task-list">
+                        <!-- Tasks will be injected here via JS -->
+                    </ul>
+                </section>
+            </div>
+
+            <!-- Right Panel -->
+            <div class="right-panel">
+                
+                <!-- Focus Sounds -->
+                <section class="card sounds-card glass-panel">
+                    <div class="card-header">
+                        <h2>Ambient Sounds</h2>
+                        <div class="volume-control">
+                            <i class='bx bx-volume-full'></i>
+                            <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5">
+                        </div>
+                    </div>
+                    
+                    <div class="sound-grid">
+                        <div class="sound-item" data-sound="rain">
+                            <button class="sound-btn"><i class='bx bx-cloud-rain'></i></button>
+                            <span>Rain</span>
+                        </div>
+                        <div class="sound-item" data-sound="cafe">
+                            <button class="sound-btn"><i class='bx bx-coffee'></i></button>
+                            <span>Cafe</span>
+                        </div>
+                        <div class="sound-item" data-sound="forest">
+                            <button class="sound-btn"><i class='bx bx-tree'></i></button>
+                            <span>Forest</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Hidden audio elements -->
+                    <audio id="audio-rain" loop preload="auto">
+                        <source src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_0625c1539c.mp3?filename=heavy-rain-nature-sounds-8186.mp3" type="audio/mpeg">
+                    </audio>
+                    <audio id="audio-cafe" loop preload="auto">
+                        <source src="https://cdn.pixabay.com/download/audio/2022/11/04/audio_34149fa894.mp3?filename=cafe-ambience-124976.mp3" type="audio/mpeg">
+                    </audio>
+                    <audio id="audio-forest" loop preload="auto">
+                        <source src="https://cdn.pixabay.com/download/audio/2021/08/09/audio_9242d99d14.mp3?filename=forest-with-small-river-birds-and-nature-field-recording-6735.mp3" type="audio/mpeg">
+                    </audio>
+                </section>
+
+                <!-- Productivity Stats -->
+                <section class="card stats-card glass-panel">
+                    <h2>Productivity</h2>
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <i class='bx bx-time-five'></i>
+                            <div class="stat-info">
+                                <span class="stat-value" id="stat-time">0h 0m</span>
+                                <span class="stat-label">Total Time</span>
+                            </div>
+                        </div>
+                        <div class="stat-box">
+                            <i class='bx bx-check-circle'></i>
+                            <div class="stat-info">
+                                <span class="stat-value" id="stat-sessions">0</span>
+                                <span class="stat-label">Pomodoros</span>
+                            </div>
+                        </div>
+                        <div class="stat-box">
+                            <i class='bx bxs-hot fire-icon'></i>
+                            <div class="stat-info">
+                                <span class="stat-value" id="stat-streak">0 Days</span>
+                                <span class="stat-label">Streak</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Weekly Progress Chart -->
+                    <div class="weekly-chart">
+                        <h3>Weekly Activity</h3>
+                        <div class="chart-bars" id="chart-bars">
+                            <!-- Bars injected via JS -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Motivational Quotes -->
+                <section class="card quote-card glass-panel">
+                    <div class="quote-content">
+                        <i class='bx bxs-quote-left'></i>
+                        <p id="quote-text">"Discipline beats motivation."</p>
+                    </div>
+                    <button id="next-quote-btn" class="icon-btn small"><i class='bx bx-refresh'></i></button>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
